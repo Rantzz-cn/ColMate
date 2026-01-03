@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(cuid())
+  email      String    @unique
+  password   String
+  name       String?
+  university University? @relation(fields: [universityId], references: [id])
+  universityId String?
+  interests  UserInterest[]
+  matchesA   Match[]   @relation("A")
+  matchesB   Match[]   @relation("B")
+  messages   Message[]
+  createdAt  DateTime  @default(now())
+}
+
+model University {
+  id    String @id @default(cuid())
+  name  String @unique
+  users User[]
+}
+
+model Interest {
+  id    String @id @default(cuid())
+  name  String @unique
+  users UserInterest[]
+}
+
+model UserInterest {
+  id         String @id @default(cuid())
+  user       User   @relation(fields: [userId], references: [id])
+  userId     String
+  interest   Interest @relation(fields: [interestId], references: [id])
+  interestId String
+}
+
+model Match {
+  id        String  @id @default(cuid())
+  userA     User    @relation("A", fields: [userAId], references: [id])
+  userAId   String
+  userB     User    @relation("B", fields: [userBId], references: [id])
+  userBId   String
+  createdAt DateTime @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id        String  @id @default(cuid())
+  match     Match   @relation(fields: [matchId], references: [id])
+  matchId   String
+  sender    User    @relation(fields: [senderId], references: [id])
+  senderId  String
+  content   String
+  createdAt DateTime @default(now())
+}
