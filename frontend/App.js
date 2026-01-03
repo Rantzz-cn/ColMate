@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, TextInput, Button, FlatList, ScrollView, Acti
 import { io } from 'socket.io-client';
 
 export default function App() {
-  const [serverUrl, setServerUrl] = useState('http://localhost:4000');
+  const [serverUrl, setServerUrl] = useState('colmate-production.up.railway.app');
   const [university, setUniversity] = useState('');
   const [interests, setInterests] = useState('');
   const [status, setStatus] = useState('idle');
@@ -162,12 +162,12 @@ export default function App() {
                 style={{ flex: 1, marginBottom: 12 }}
               />
 
-              <View style={{ flexDirection: 'row', marginTop: 12, gap: 8 }}>
+              <View style={{ flexDirection: 'row', marginTop: 12 }}>
                 <TextInput
                   value={messageInput}
                   onChangeText={setMessageInput}
                   placeholder="Type a message..."
-                  style={{ flex: 1, borderWidth: 1, padding: 10, borderRadius: 4, backgroundColor: '#fff', borderColor: '#ddd' }}
+                  style={{ flex: 1, borderWidth: 1, padding: 10, borderRadius: 4, backgroundColor: '#fff', borderColor: '#ddd', marginRight: 8 }}
                 />
                 <Button title="Send" onPress={sendMessage} color="#007AFF" />
               </View>
